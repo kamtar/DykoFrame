@@ -14,12 +14,15 @@ namespace DykoFrame
         public UnityEngine.UI.Text UIText
         {
             get { return uiText; }
-            set { uiText = value; }
         }
 
         void Start()
         {
             uiText = GetComponent<UnityEngine.UI.Text>();
+
+            if (uiText == null)
+                throw new BadUsageException("UnityEngine.UI.Text not found");
+
             parse_text = uiText.text;
         }
 

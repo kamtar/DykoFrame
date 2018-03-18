@@ -22,7 +22,7 @@ namespace DykoFrame
         public void RegisterOnTriggerEnter2D(CollisionMatch type, string name, CollisionTrigger callback, bool inclusive = false)
         {
             if (type == CollisionMatch.Instantion)
-                throw new System.InvalidOperationException("you called bad func");
+                throw new InvalidMethodException("wrong method - problem in code logic");
 
             CollisionEntry en;
             en.type = type;
@@ -36,7 +36,7 @@ namespace DykoFrame
         public void RegisterOnTriggerEnter2D(CollisionMatch type, GameObject obj, CollisionTrigger callback, bool inclusive = false)
         {
             if (type != CollisionMatch.Instantion)
-                throw new System.InvalidOperationException("you called bad func");
+                throw new InvalidMethodException("wrong method - problem in code logic");
 
             CollisionEntry en;
             en.type = type;
@@ -50,7 +50,7 @@ namespace DykoFrame
         public void RegisterOnTriggerExit2D(CollisionMatch type, string name, CollisionTrigger callback, bool inclusive = false)
         {
             if (type == CollisionMatch.Instantion)
-                throw new System.InvalidOperationException("you called bad func");
+                throw new InvalidMethodException("wrong method - problem in code logic");
 
             CollisionEntry en;
             en.type = type;
@@ -64,7 +64,7 @@ namespace DykoFrame
         public void RegisterOnTriggerExit2D(CollisionMatch type, GameObject obj, CollisionTrigger callback, bool inclusive = false)
         {
             if (type != CollisionMatch.Instantion)
-                throw new System.InvalidOperationException("you called bad func");
+                throw new InvalidMethodException("wrong method - problem in code logic");
 
             CollisionEntry en;
             en.type = type;
