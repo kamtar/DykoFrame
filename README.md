@@ -1,29 +1,11 @@
-# README #
+# Unity Libs #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Series of libraries for unity
 
-### What is this repository for? ###
+### Objects ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* So far only CollisionManager
 
-### How do I get set up? ###
+### UI ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* DykoText - Add as a component to a Unity UI Text and use text format as: "Text %variable". You can then access "varible" via array operator.
