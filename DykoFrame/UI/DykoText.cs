@@ -11,6 +11,13 @@ namespace DykoFrame
         private string parse_text;
         private UnityEngine.UI.Text uiText;
 
+        private Dictionary<string, string> variables;
+
+        public DykoText()
+        {
+            variables = new Dictionary<string, string>();
+        }
+
         public UnityEngine.UI.Text UIText
         {
             get { return uiText; }
@@ -30,7 +37,17 @@ namespace DykoFrame
         {
             set
             {
-                uiText.text = parse_text.Replace( "%" + key, value);
+                if (variables.ContainsKey(key))
+                    variables[key] = value;
+                else
+                    variables.Add(key, value);
+
+                var tempStr = parse_text;
+
+                foreach (KeyValuePair<string,string> k in variables)
+                    tempStr = tempStr.Replace( "%" + k.Key, k.Value);
+
+                UIText.text = tempStr;
             }
         }
     }
