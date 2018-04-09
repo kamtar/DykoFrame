@@ -9,7 +9,6 @@ namespace DykoFrame
     public class DykoText : MonoBehaviour
     {
         private string parse_text;
-        private UnityEngine.UI.Text uiText;
 
         private Dictionary<string, string> variables;
 
@@ -20,17 +19,18 @@ namespace DykoFrame
 
         public UnityEngine.UI.Text UIText
         {
-            get { return uiText; }
+            get;
+            private set;
         }
 
         void Start()
         {
-            uiText = GetComponent<UnityEngine.UI.Text>();
+            UIText = GetComponent<UnityEngine.UI.Text>();
 
-            if (uiText == null)
+            if (UIText == null)
                 throw new BadUsageException("UnityEngine.UI.Text not found");
 
-            parse_text = uiText.text;
+            parse_text = UIText.text;
         }
 
         public string this[string key]
