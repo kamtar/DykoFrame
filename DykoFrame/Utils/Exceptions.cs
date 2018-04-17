@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DykoFrame
 {
-    class BadUsageException : DykoFrameException
+    public class BadUsageException : DykoFrameException
     {
         public BadUsageException() 
             : base("Bad usage")
@@ -23,7 +23,7 @@ namespace DykoFrame
         }
     }
 
-    class InvalidMethodException : DykoFrameException
+    public class InvalidMethodException : DykoFrameException
     {
         public InvalidMethodException()
             : base("Error in system logic")
@@ -41,7 +41,7 @@ namespace DykoFrame
         }
     }
 
-    abstract class DykoFrameException : Exception
+    public abstract class DykoFrameException : Exception
     {
         public DykoFrameException()
             : base("DykoFrame: Empty exception")

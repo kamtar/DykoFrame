@@ -1,7 +1,8 @@
 {
     "name": "DykoFrame.Network",
     "references": [
-        "MessagePack"
+        "MessagePack",
+        "DykoFrame"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
