@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace DykoFrame
 {
+    /// <summary>
+    /// Base class for collision handing</summary>
+    /// <remarks>
+    /// Usage: Inherit CollisionManager2D instead of MonoBehaviour
+    /// Overrides OnTriggerEnter2D and OnTriggerExit2D from MonoBehaviour.</remarks>
     public class CollisionManager2D : MonoBehaviour
     {
         private List<CollisionEntry> collisionsEnt = new List<CollisionEntry>();
