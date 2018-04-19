@@ -1,9 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace DykoFrame 
 {
+    /// <summary>
+    /// Base class for collision handing</summary>
+    /// <remarks>
+    /// Usage: Inherit CollisionManager instead of MonoBehaviour
+    /// Overrides OnTriggerEnter and OnTriggerExit from MonoBehaviour.</remarks>
     public class CollisionManager : MonoBehaviour
     {
         private List<CollisionEntry> collisionsEnt = new List<CollisionEntry>();
