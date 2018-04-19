@@ -10,7 +10,6 @@ namespace DykoFrame
     {
         public class HighScoreClient
         {
-            public delegate void TopScoreCallback(string result);
             public enum Requests : byte
             {
                 GetTop = 0x10,
