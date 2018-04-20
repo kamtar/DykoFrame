@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using MessagePack;
 using System;
+
 namespace DykoFrame
 {
     namespace Network
@@ -26,7 +27,7 @@ namespace DykoFrame
 
             public HighScoreClient(int index)
             {
-                client = new ServiceClient((GameServicePort)((int)GameServicePort.HighScore + index));
+                client = new ServiceClient((GameServicePort)((int)GameServicePort.HighScoreBase + index));
                 highScoreTable = new Dictionary<string, int>();
             }
 

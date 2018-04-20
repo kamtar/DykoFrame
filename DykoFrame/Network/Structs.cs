@@ -10,7 +10,8 @@ namespace DykoFrame
         public enum GameServicePort : UInt16
         {
             Info = 0,
-            HighScore = 0x24
+            AnalyticsBase = 0x10,
+            HighScoreBase = 0x20
         }
 
         public enum GeneralResponseState : byte
@@ -51,6 +52,13 @@ namespace DykoFrame
             public string name;
             [Key(1)]
             public int value;
+        }
+
+        [MessagePackObject]
+        public struct TimeSpent
+        {
+            [Key(0)]
+            public byte data;
         }
     }
 }
