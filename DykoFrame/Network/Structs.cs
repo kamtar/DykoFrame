@@ -58,7 +58,7 @@ namespace DykoFrame
         public struct TimeSpent
         {
             [Key(0)]
-            public byte data;
+            public UInt64 data;
         }
     }
 }

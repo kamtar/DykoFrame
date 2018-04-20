@@ -28,12 +28,12 @@ namespace DykoFrame
 
             }
 
-            public AnalyticsClient(int index) : base((GameServicePort)((int)GameServicePort.HighScoreBase + index))
+            public AnalyticsClient(int index) : base((GameServicePort)((int)GameServicePort.AnalyticsBase + index))
             {
                 //client = new ServiceTcpClient((GameServicePort)((int)GameServicePort.AnalyticsBase + index));
             }
 
-            public void AddTimeEntry(byte time, Action<bool> callback)
+            public void AddTimeEntry(ulong time, Action<bool> callback)
             {
                 TimeSpent en;
                 en.data = time;
