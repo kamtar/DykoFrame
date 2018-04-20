@@ -11,14 +11,18 @@ namespace DykoFrame
 {
     namespace Network
     {
-        class ServiceClient
+        class ServiceTcpClient : IServiceClient
         {
 
             private TcpClient tcpClient;
             public GameServicePort ServicePort { get; protected set; }
 
+            public GameServicePort GetServicePort()
+            {
+                return ServicePort;
+            }
 
-            public ServiceClient(GameServicePort id)
+            public ServiceTcpClient(GameServicePort id)
             {
                 ServicePort = id;
             }

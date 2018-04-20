@@ -9,7 +9,7 @@ namespace DykoFrame
 {
     namespace Network
     {
-        public class HighScoreClient
+        public class HighScoreClient : ServicePostClient
         {
             public enum Requests : byte
             {
@@ -17,18 +17,19 @@ namespace DykoFrame
                 AddScore = 0x11
             }
 
-            Dictionary<string, int> highScoreTable;
-            ServiceClient client;
+            ServicePostClient client;
+
+            Action<string> clTable = null;
+            Action<bool> clEntry = null;
 
             public HighScoreClient() : this(0)
             {
 
             }
 
-            public HighScoreClient(int index)
+            public HighScoreClient(int index) : base ((GameServicePort)((int)GameServicePort.HighScoreBase + index))
             {
-                client = new ServiceClient((GameServicePort)((int)GameServicePort.HighScoreBase + index));
-                highScoreTable = new Dictionary<string, int>();
+
             }
 
             public void AddScoreEntry(string name, int value, Action<bool> callback)
@@ -41,11 +42,9 @@ namespace DykoFrame
                 rq.rq = (byte)Requests.AddScore;
                 rq.data = MessagePackSerializer.Serialize(en);
 
-                Task.Run(async () =>
-                {
-                    GeneralRequestResponse res = await client.HandleRq(rq);
-                    callback(res.state == GeneralResponseState.GeneralOk);
-                });
+
+                base.HandleRq(rq);
+                clEntry = callback;
             }
 
             public void GetHighScore(int num, Action<string> callback)
@@ -59,11 +58,29 @@ namespace DykoFrame
                 RequestPayload rq;
                 rq.rq = (byte)Requests.GetTop;
                 rq.data = MessagePackSerializer.Serialize(tt);
-                Task.Run(async () =>
+                base.HandleRq(rq);
+                clTable = callback;
+  
+            }
+
+            void Update()
+            {
+                if (base.result.HasValue)
                 {
-                    GeneralRequestResponse res = await client.HandleRq(rq);
-                    callback(MessagePackSerializer.Deserialize<string>(res.data));
-                });
+                    if(clTable != null)
+                    {
+                        clTable(MessagePackSerializer.Deserialize<string>(base.result.Value.data));
+                        clTable = null;
+                    }
+
+                    else if (clEntry != null)
+                    {
+                        clEntry((base.result.Value.state == GeneralResponseState.GeneralOk));
+                        clEntry = null;
+                    }
+
+                    base.result = null;
+                }
             }
 
         }

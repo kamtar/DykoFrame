@@ -9,7 +9,7 @@ namespace DykoFrame
 {
     namespace Network
     {
-        public class AnalyticsClient
+        public class AnalyticsClient : ServicePostClient
         {
             public enum Requests : byte
             {
@@ -21,16 +21,16 @@ namespace DykoFrame
                 TimePlaying = 0x01
             }
 
-            ServiceClient client;
-
+            //ServiceTcpClient client;
+            Action<bool> clEntry;
             public AnalyticsClient() : this(0)
             {
 
             }
 
-            public AnalyticsClient(int index)
+            public AnalyticsClient(int index) : base((GameServicePort)((int)GameServicePort.HighScoreBase + index))
             {
-                client = new ServiceClient((GameServicePort)((int)GameServicePort.AnalyticsBase + index));
+                //client = new ServiceTcpClient((GameServicePort)((int)GameServicePort.AnalyticsBase + index));
             }
 
             public void AddTimeEntry(byte time, Action<bool> callback)
@@ -42,11 +42,26 @@ namespace DykoFrame
                 rq.rq = (byte)Requests.AddTimeEntry;
                 rq.data = MessagePackSerializer.Serialize(en);
 
-                Task.Run(async () =>
+                //Task.Run(async () =>
+                //{
+                    /*GeneralRequestResponse res = await*/ base.HandleRq(rq);
+                    clEntry = callback;
+                //});
+            }
+
+            void Update()
+            {
+                if (base.result.HasValue)
                 {
-                    GeneralRequestResponse res = await client.HandleRq(rq);
-                    callback(res.state == GeneralResponseState.GeneralOk);
-                });
+
+                    if (clEntry != null)
+                    {
+                        clEntry((base.result.Value.state == GeneralResponseState.GeneralOk));
+                        clEntry = null;
+                    }
+
+                    base.result = null;
+                }
             }
 
         }
