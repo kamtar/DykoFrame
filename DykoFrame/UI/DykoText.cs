@@ -23,7 +23,7 @@ namespace DykoFrame
             private set;
         }
 
-        void Start()
+        public void Start()
         {
             UIText = GetComponent<UnityEngine.UI.Text>();
 
@@ -35,6 +35,7 @@ namespace DykoFrame
 
         public string this[string key]
         {
+
             set
             {
                 if (variables.ContainsKey(key))

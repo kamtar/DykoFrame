@@ -12,6 +12,7 @@ namespace DykoFrame
         Name,
         Instantion
     };
+    //test
 
     public struct CollisionEntry
     {

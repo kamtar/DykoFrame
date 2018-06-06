@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
 using System.Runtime.Serialization;
-using MessagePack;
+
 
 namespace DykoFrame
 {
@@ -12,20 +12,21 @@ namespace DykoFrame
         public class SecurePacket
         {
             const byte PacketVer = 0x01;
-            static readonly byte[] SystemSeed = { 0x0D, 0x12, 0x4E, 0x08 };
 
+            static byte[] SystemSeed = { 0x00, 0x00, 0x00, 0x00 };
+            
+            public static void SetSeed (byte[] key)
+            {
+                SystemSeed = key;
+            }
 
-            [MessagePackObject]
             public struct SecureFrame
             {
-                [Key(0)]
                 public byte ver;
-                [Key(1)]
                 public UInt16 id;
-                [Key(3)]
                 public byte[] data;
-                [Key(4)]
                 public byte[] sha;
+
             }
 
             private byte[] originalData;
@@ -37,6 +38,12 @@ namespace DykoFrame
                 originalData = data;
             }
 
+            public SecurePacket(UInt16 id, byte[] data, byte[] key)
+            {
+                mID = id;
+                originalData = data;              
+            }
+        
             public SecureFrame GetSecuredPacket()
             {
                 SHA1 sha = new SHA1CryptoServiceProvider();

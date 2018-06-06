@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using MessagePack;
+using MsgPack;
+using MsgPack.Serialization;
 using System;
-
+using System.IO;
 namespace DykoFrame
 {
     namespace Network
@@ -34,15 +34,14 @@ namespace DykoFrame
 
             public void AddScoreEntry(string name, int value, Action<bool> callback)
             {
+                MessagePackSerializer.PrepareType<AddScoreEntry>();
                 AddScoreEntry en;
                 en.name = name;
                 en.value = value;
-
+                var s = MessagePackSerializer.Get<AddScoreEntry>();
                 RequestPayload rq;
                 rq.rq = (byte)Requests.AddScore;
-                rq.data = MessagePackSerializer.Serialize(en);
-
-
+                rq.data = s.PackSingleObject(en);
                 base.HandleRq(rq);
                 clEntry = callback;
             }
@@ -52,16 +51,20 @@ namespace DykoFrame
                 if (num > byte.MaxValue)
                     throw new BadUsageException();
 
+                MessagePackSerializer.PrepareType<byte>();
+                MessagePackSerializer.PrepareType<RequestTopTable>();
                 RequestTopTable tt;
                 tt.num = (byte)num;
-
+                var s = MessagePackSerializer.Get<RequestTopTable>();
                 RequestPayload rq;
                 rq.rq = (byte)Requests.GetTop;
-                rq.data = MessagePackSerializer.Serialize(tt);
+                rq.data = s.PackSingleObject(tt);
                 base.HandleRq(rq);
-                clTable = callback;
+               clTable = callback;
   
             }
+
+            
 
             void Update()
             {
@@ -69,13 +72,15 @@ namespace DykoFrame
                 {
                     if(clTable != null)
                     {
-                        clTable(MessagePackSerializer.Deserialize<string>(base.result.Value.data));
+                        MessagePackSerializer.PrepareType<string>();
+                        var s = MessagePackSerializer.Get<string>();
+                        clTable(s.UnpackSingleObject(result.Value.data));
                         clTable = null;
                     }
 
                     else if (clEntry != null)
                     {
-                        clEntry((base.result.Value.state == GeneralResponseState.GeneralOk));
+                       clEntry((base.result.Value.state == GeneralResponseState.GeneralOk));
                         clEntry = null;
                     }
 

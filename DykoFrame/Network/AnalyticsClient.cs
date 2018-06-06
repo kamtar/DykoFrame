@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
-using MessagePack;
+using MsgPack;
+using MsgPack.Serialization;
 using System;
 
 namespace DykoFrame
@@ -38,9 +38,11 @@ namespace DykoFrame
                 TimeSpent en;
                 en.data = time;
 
+                var s = MessagePackSerializer.Get<TimeSpent>();
+
                 RequestPayload rq;
                 rq.rq = (byte)Requests.AddTimeEntry;
-                rq.data = MessagePackSerializer.Serialize(en);
+                rq.data = s.PackSingleObjectAsBytes(en).Array;
 
                 //Task.Run(async () =>
                 //{
